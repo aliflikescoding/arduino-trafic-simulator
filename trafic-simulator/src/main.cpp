@@ -1,6 +1,7 @@
 #include <Arduino.h>
 
-// put function declarations here:
+// variable declarations
+
 const int buttonPinRight = 2;
 const int buttonPinLeft = 13;
 
@@ -13,6 +14,9 @@ const int rightYellowLed = 4;
 const int rightRedLed = 5;
 
 const int buzzer = 7;
+
+// put function declarations here:
+void startTrafficPhases();
 
 void setup()
 {
@@ -36,23 +40,28 @@ void setup()
 
 void loop()
 {
+  startTrafficPhases();
+}
+
+// put function definitions here:
+void startTrafficPhases() {
   // Phase 1: Left Green, Right Red
   digitalWrite(leftGreenLed, HIGH); // left green on
   digitalWrite(leftYellowLed, LOW); // left yellow off
-  digitalWrite(leftRedLed, LOW); // left red off
+  digitalWrite(leftRedLed, LOW);    // left red off
 
-  digitalWrite(rightRedLed, HIGH); // right red on
-  digitalWrite(rightYellowLed, LOW);  // right yellow off
-  digitalWrite(rightGreenLed, LOW);   // right green off
-  delay(5000); // 5 seconds next step
+  digitalWrite(rightRedLed, HIGH);   // right red on
+  digitalWrite(rightYellowLed, LOW); // right yellow off
+  digitalWrite(rightGreenLed, LOW);  // right green off
+  delay(5000);                       // 5 seconds next step
 
   // Phase 2: Left Yellow, Right Red
-  digitalWrite(leftGreenLed, LOW); // left green off`
+  digitalWrite(leftGreenLed, LOW);   // left green off`
   digitalWrite(leftYellowLed, HIGH); // left yellow on
-  digitalWrite(leftRedLed, LOW); // left red off
+  digitalWrite(leftRedLed, LOW);     // left red off
   delay(2000);
   digitalWrite(leftYellowLed, LOW); // left yellow off
-  
+
   // Phase 3: Left Red, Right Yellow
   digitalWrite(leftRedLed, HIGH);
   digitalWrite(rightRedLed, LOW);
@@ -76,6 +85,4 @@ void loop()
   digitalWrite(rightRedLed, HIGH);
   digitalWrite(leftYellowLed, HIGH);
   delay(1500);
-}
-
-// put function definitions here:
+};
