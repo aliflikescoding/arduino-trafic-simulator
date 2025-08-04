@@ -59,15 +59,18 @@ void loop()
   yellowBlink(1, 2000);
   // no delay, left red on, right green on, others off
   PhaseFive();
-  // delay 5 secs, left red on, others off
+  // delay 5 secs
   delay(5000);
+  // right green off, right yellow blink
   PhaseSix();
-  // no delay, left side blink
-  yellowBlink(0, 1500);
-  // no delay, right side yellow blink
   yellowBlink(1, 2000);
+  // all off
+  PhaseThree();
+  // right red on
   PhaseSeven();
-  /* loop back to phase one */
+  // left yellow blink before going green
+  yellowBlink(0, 2000);
+  // now loop back to phase one
 }
 
 void yellowBlink(int position, int seconds)
@@ -106,7 +109,9 @@ void PhaseTwo()
 
 void PhaseThree()
 {
+  digitalWrite(leftRedLed, LOW);
   digitalWrite(rightRedLed, LOW);
+  digitalWrite(rightGreenLed, LOW);
 }
 
 void PhaseFour()
@@ -117,14 +122,15 @@ void PhaseFour()
 void PhaseFive()
 {
   digitalWrite(rightGreenLed, HIGH);
+  digitalWrite(rightRedLed, LOW);
 }
 
 void PhaseSix()
 {
   digitalWrite(rightGreenLed, LOW);
-  digitalWrite(leftRedLed, LOW);
 }
 
-void PhaseSeven() {
+void PhaseSeven()
+{
   digitalWrite(rightRedLed, HIGH);
 }
