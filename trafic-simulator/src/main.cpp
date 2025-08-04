@@ -1,7 +1,6 @@
 #include <Arduino.h>
 
 // variable declarations
-
 const int buttonPinRight = 2;
 
 const int leftRedLed = 12;
@@ -14,13 +13,21 @@ const int rightRedLed = 5;
 
 const int buzzer = 7;
 
-// put function declarations here:
-void startTrafficPhases();
+// function declarations
+void PhaseOne();
+void yellowBlink(int position, int seconds);
+void PhaseTwo();
+void PhaseThree();
+void PhaseFour();
+void PhaseFive();
+void PhaseSix();
+void PhaseSeven();
 
 void setup()
 {
   // Buttons as input (use INPUT_PULLUP if wired to ground)
   pinMode(buttonPinRight, INPUT);
+
   // Left side LEDs as output
   pinMode(leftRedLed, OUTPUT);
   pinMode(leftYellowLed, OUTPUT);
@@ -37,43 +44,87 @@ void setup()
 
 void loop()
 {
-  startTrafficPhases();
+  // left green on, right red on, others off
+  PhaseOne();
+  // delay 5 secs, right red on, others off
+  delay(5000);
+  PhaseTwo();
+  // no delay, left side yellow blink
+  yellowBlink(0, 2000);
+  // no delay, all off
+  PhaseThree();
+  // no delay, left red on, others off
+  PhaseFour();
+  // no delay, right side yellow blink
+  yellowBlink(1, 2000);
+  // no delay, left red on, right green on, others off
+  PhaseFive();
+  // delay 5 secs, left red on, others off
+  delay(5000);
+  PhaseSix();
+  // no delay, left side blink
+  yellowBlink(0, 1500);
+  // no delay, right side yellow blink
+  yellowBlink(1, 2000);
+  PhaseSeven();
+  /* loop back to phase one */
 }
 
-// put function definitions here:
-void startTrafficPhases() {
+void yellowBlink(int position, int seconds)
+{
+  if (position == 0)
+  {
+    digitalWrite(leftYellowLed, HIGH);
+    delay(seconds);
+    digitalWrite(leftYellowLed, LOW);
+  }
+  else if (position == 1)
+  {
+    digitalWrite(rightYellowLed, HIGH);
+    delay(seconds);
+    digitalWrite(rightYellowLed, LOW);
+  }
+}
+
+void PhaseOne()
+{
+  // Left side: green on, others off
   digitalWrite(leftGreenLed, HIGH);
   digitalWrite(leftYellowLed, LOW);
   digitalWrite(leftRedLed, LOW);
 
+  // Right side: red on, others off
   digitalWrite(rightRedLed, HIGH);
   digitalWrite(rightYellowLed, LOW);
   digitalWrite(rightGreenLed, LOW);
-  delay(5000);
+}
 
+void PhaseTwo()
+{
   digitalWrite(leftGreenLed, LOW);
-  digitalWrite(leftYellowLed, HIGH);
-  digitalWrite(leftRedLed, LOW);
-  delay(2000);
-  digitalWrite(leftYellowLed, LOW);
+}
 
+void PhaseThree()
+{
+  digitalWrite(rightRedLed, LOW);
+}
+
+void PhaseFour()
+{
   digitalWrite(leftRedLed, HIGH);
-  digitalWrite(rightRedLed, LOW);
-  digitalWrite(rightYellowLed, HIGH);
-  delay(1500);
-  digitalWrite(rightYellowLed, LOW);
+}
 
+void PhaseFive()
+{
   digitalWrite(rightGreenLed, HIGH);
-  delay(5000);
+}
 
+void PhaseSix()
+{
   digitalWrite(rightGreenLed, LOW);
-  digitalWrite(rightYellowLed, HIGH);
-  digitalWrite(rightRedLed, LOW);
-  delay(2000);
-  digitalWrite(rightYellowLed, LOW);
-
   digitalWrite(leftRedLed, LOW);
+}
+
+void PhaseSeven() {
   digitalWrite(rightRedLed, HIGH);
-  digitalWrite(leftYellowLed, HIGH);
-  delay(1500);
-};
+}
